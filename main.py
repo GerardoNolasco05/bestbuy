@@ -27,27 +27,31 @@ def make_order(store: Store):
     print("When you want to finish order, enter empty text.")
     while True:
         # Get the product selection from the user
-        product_choice = input("Which product # do you want?): ")
+        product_choice = input("Which product # do you want? ")
         if product_choice == "":
             break
 
-        # Ensure the choice is valid
+        quantity_choice = input("What amount do you want? ")
+        if quantity_choice == "":
+            break
+
+        # Ensure both inputs are valid
         try:
             product_index = int(product_choice) - 1
+            quantity = int(quantity_choice)
             active_products = store.get_all_products()
+
             if 0 <= product_index < len(active_products):
                 selected_product = active_products[product_index]
-                quantity = int(input(f"What amount do you want?"))
-                if quantity <= 0 or quantity > selected_product.get_quantity():
-                    print(f"Invalid quantity. Please enter a value between 1 and {selected_product.get_quantity()}.")
-                else:
+                if 1 <= quantity <= selected_product.get_quantity():
                     shopping_list.append((selected_product, quantity))
                     print("Product added to list!")
-                    # Do not print the product list again after adding to the list
+                else:
+                    print("Error adding product!")
             else:
-                print("Invalid product number. Please try again.")
+                print("Error adding product!")
         except ValueError:
-            print("Please enter a valid number.")
+            print("Error adding product!")
 
     if shopping_list:
         try:
@@ -57,6 +61,7 @@ def make_order(store: Store):
             print(e)
     else:
         print("No items added to the order.")
+
 
 
 
@@ -80,8 +85,6 @@ def start(store: Store):
             make_order(store)
         elif choice == '4':
             break
-        else:
-            print("Invalid choice. Please select a valid option (1-4).")
 
 
 # Setup initial inventory
