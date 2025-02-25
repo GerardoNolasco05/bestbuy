@@ -3,6 +3,8 @@ from typing import List, Tuple
 
 
 class Store:
+    """Manages a collection of products in a store."""
+
     def __init__(self, products: List[Product]):
         self.products = products  # List of products in the store
 
@@ -18,15 +20,15 @@ class Store:
             raise ValueError(f"Product {product.name} not found in the store.")
 
     def get_total_quantity(self) -> int:
-        """Returns the total quantity of all active products in the store."""
+        """Returns total quantity of all active products."""
         return sum(p.get_quantity() for p in self.products if p.is_active())
 
     def get_all_products(self) -> List[Product]:
-        """Returns all active products in the store."""
+        """Returns a list of all active products."""
         return [p for p in self.products if p.is_active()]
 
     def order(self, shopping_list: List[Tuple[Product, int]]) -> float:
-        """Processes an order and returns the total price."""
+        """Processes an order and returns total price."""
         total_price = 0
         for product, quantity in shopping_list:
             if product.is_active() and product.get_quantity() >= quantity:
